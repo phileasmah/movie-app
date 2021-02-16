@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import AuthenticationButton from "./authentication-button";
+import AuthNav from "./auth-nav";
 
 
 
@@ -15,7 +15,7 @@ const Navbar = (props) => {
                         <Link to="/add" className="nav-link">Add Movie</Link>
                     </li>
                 </ul>
-                <AuthenticationButton />
+                <AuthNav />
             </div>
         </nav>
     )
