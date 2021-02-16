@@ -1,13 +1,10 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import AuthenticationButton from "./authentication-button";
+
+
 
 const Navbar = (props) => {
-
-    const [movies, setMovies] = useState([]);
-
-    const getMovies = () => {
-        setMovies()
-    }
 
     return (
         <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
@@ -18,6 +15,7 @@ const Navbar = (props) => {
                         <Link to="/add" className="nav-link">Add Movie</Link>
                     </li>
                 </ul>
+                <AuthenticationButton />
             </div>
         </nav>
     )
