@@ -28,7 +28,6 @@ const CreateMovie = (props) => {
     }
 
     async function findMovie(e){
-
         const searchString = "http://www.omdbapi.com/?s=" +e.trim().replace(/ /g,"+")+ "&apikey=7b960706";
         let res = await axios.get(searchString);
         console.log(res);

@@ -1,65 +1,62 @@
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import React, { useState } from "react";
+import MovieSearch from "./movie-search";
+import MovieResult from "./movie-result";
 import axios from "axios";
 
-const Movie = props => (
-    <tr>
-      <td>{props.movie.title}</td>
-      <td>{props.movie.director}</td>
-      <td>{props.movie.rated}</td>
-      <td>{props.movie.released}</td>
-      <td>
-        <a href="#" onClick={() => { props.deleteMovie(props.movie._id) }}>delete</a>
-      </td>
-    </tr>
-  )
-
-
 const MovieList = () => {
-    const [movie, setMovies] = useState({movies: []});
+  const [movieId, setMovieId] = useState("");
+  const [movieInput, setMovieInput] = useState("");
+  const [movieMessage, setMovieMessage] = useState("");
+  const [movieQuery, setMovieQuery] = useState([]);
+  const [movieName, setMovieName] = useState("");
 
-    useEffect(() => {
-        axios.get("http://localhost:5000/movie")
-        .then(response => {
-            setMovies({movies: response.data})
-        })
-        .catch(err => {console.log(err)})
-    })  
 
-    function deleteMovie(id) {
-        axios.delete("http://localhost:5000/movie/"+id)
-        .then(res => console.log(res.data));
-
-        setMovies({
-            movies: movie.movies.filter(el => el._id !== id)
-        })
+  async function findMovie(e) {
+    const searchString = "http://www.omdbapi.com/?s=" + e.trim().replace(/ /g, "+") + "&apikey=7b960706";
+    let res = await axios.get(searchString);
+    console.log(res);
+    if (res.data.Response === "True") {
+      setMovieQuery(res.data.Search);
+    } else {
+      setMovieInput("");
+      setMovieMessage("Cant find movie");
+      setMovieQuery([]);
     }
-
-    function movieList() {
-        return movie.movies.map(currentmovie => {
-            return <Movie movie={currentmovie} deleteMovie={deleteMovie} key={currentmovie._id}/>
-        })
-    }
-
-    return (
-        <div>
-        <h3>Movie List</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Title</th>
-              <th>Directors</th>
-              <th>Rated</th>
-              <th>Released</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { movieList() }
-          </tbody>
-        </table>
+  }
+  return (
+    <div>
+      <h3>Search a movie</h3>
+      <div className="form-group">
+        <label>Search by name:</label>
+        <input type="text"
+          className="form-control"
+          value={movieInput}
+          onChange={e => setMovieInput(e.target.value)}
+          placeholder={movieMessage}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              findMovie(movieInput);
+            }
+          }}
+        />
       </div>
-    )
+      <div className="form-group">
+        <input type="button" onClick={() => findMovie(movieInput)} value="Search Movie" className="btn btn-primary" />
+        <input type="button"
+          onClick={() => {
+            setMovieId("");
+            setMovieQuery([]);
+            setMovieInput("");
+          }}
+          value="Clear" className="btn btn-secondary" style={{ marginLeft: "1em" }}
+        />
+      </div>
+      {movieQuery.map(movie => (
+        <MovieSearch key={movie.imdbID} movie={movie} setMovieId={setMovieId} setMovieQuery={setMovieQuery} setMovieName={setMovieName} setMovieInput={setMovieInput}/>
+      ))}
+      {movieId ? <MovieResult movieName={movieName} movieId={movieId} /> : <div></div>}
+    </div>
+  )
 }
 
 export default MovieList;
