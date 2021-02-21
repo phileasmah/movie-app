@@ -25,7 +25,6 @@ function App() {
       <Route path="/" exact component={MovieList} />
       <Route path="/add" exact component={CreateMovie} />
     </Router>
-
   );
 }
 
