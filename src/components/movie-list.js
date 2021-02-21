@@ -24,7 +24,7 @@ const MovieList = () => {
     }
   }
   return (
-    <div>
+    <div className="container">
       <h3>Search a movie</h3>
       <div className="form-group">
         <label>Search by name:</label>

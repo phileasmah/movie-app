@@ -41,7 +41,7 @@ const CreateMovie = (props) => {
     }
 
     return (
-        <div>
+        <div className="container">
             <h3>Add a movie</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">

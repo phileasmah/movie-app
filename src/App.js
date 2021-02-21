@@ -20,12 +20,10 @@ function App() {
 
   return (
     <Router>
-      <div className="container">
-        <Navbar />
-        <br />
-        <Route path="/" exact component={MovieList} />
-        <Route path="/add" exact component={CreateMovie} />
-      </div>
+      <Navbar />
+      <br />
+      <Route path="/" exact component={MovieList} />
+      <Route path="/add" exact component={CreateMovie} />
     </Router>
 
   );
