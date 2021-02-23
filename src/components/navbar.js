@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import AuthNav from "./auth-nav";
 
@@ -12,9 +12,9 @@ const Navbar = (props) => {
       <Link to="/" className="navbar-brand">Movies</Link>
       <div className="collpase navbar-collapse">
         <ul className="navbar-nav mr-auto">
-          <li className="navbar-item">
+          {/* <li className="navbar-item">
             <Link to="/add" className="nav-link">Add Movie</Link>
-          </li>
+          </li> */}
         </ul>
         <AuthNav />
       </div>

@@ -1,5 +1,6 @@
 import React from "react";
 
+//returns all options generated from omdb's api call for user to select movie
 const MovieSearch = ({movie, setMovieId, setMovieQuery, setMovieName, setMovieInput}) => {
     return (
         <div className="form-group">

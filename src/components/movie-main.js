@@ -4,13 +4,13 @@ import MovieResult from "./movie-result";
 import axios from "axios";
 
 const MovieList = () => {
-  const [movieId, setMovieId] = useState("");
-  const [movieInput, setMovieInput] = useState("");
-  const [movieMessage, setMovieMessage] = useState("");
-  const [movieQuery, setMovieQuery] = useState([]);
-  const [movieName, setMovieName] = useState("");
+  const [movieId, setMovieId] = useState("");   //for when finding movie id from omdb api call 
+  const [movieInput, setMovieInput] = useState("");  //user input on what movie to find 
+  const [movieMessage, setMovieMessage] = useState(""); //placeholder message for input field
+  const [movieQuery, setMovieQuery] = useState([]); //list of results from omdb api call, where user selects 1 to get the id
+  const [movieName, setMovieName] = useState(""); //name of the movie from omdb api
 
-
+  // function for finding a movie by making an api call to omdb's api 
   async function findMovie(e) {
     const searchString = "http://www.omdbapi.com/?s=" + e.trim().replace(/ /g, "+") + "&apikey=7b960706";
     let res = await axios.get(searchString);
@@ -23,6 +23,7 @@ const MovieList = () => {
       setMovieQuery([]);
     }
   }
+
   return (
     <div className="container">
       <h3>Search a movie</h3>
@@ -35,13 +36,14 @@ const MovieList = () => {
           placeholder={movieMessage}
           onKeyPress={(event) => {
             if (event.key === "Enter") {
+              setMovieId("");
               findMovie(movieInput);
             }
           }}
         />
       </div>
       <div className="form-group">
-        <input type="button" onClick={() => findMovie(movieInput)} value="Search Movie" className="btn btn-primary" />
+        <input type="button" onClick={() => { setMovieId(""); findMovie(movieInput); }} value="Search Movie" className="btn btn-primary" />
         <input type="button"
           onClick={() => {
             setMovieId("");
@@ -52,7 +54,7 @@ const MovieList = () => {
         />
       </div>
       {movieQuery.map(movie => (
-        <MovieSearch key={movie.imdbID} movie={movie} setMovieId={setMovieId} setMovieQuery={setMovieQuery} setMovieName={setMovieName} setMovieInput={setMovieInput}/>
+        <MovieSearch key={movie.imdbID} movie={movie} setMovieId={setMovieId} setMovieQuery={setMovieQuery} setMovieName={setMovieName} setMovieInput={setMovieInput} />
       ))}
       {movieId ? <MovieResult movieName={movieName} movieId={movieId} /> : <div></div>}
     </div>

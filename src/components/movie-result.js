@@ -3,40 +3,48 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const MovieResult = ({ movieName, movieId }) => {
-  const [nudity, setNudity] = useState([]);
+  const [nudity, setNudity] = useState([]); //getting list of nudity warnings from imdb's website
 
+  //sets nudity warnings to empty array everytime the user inputs a new movie
+  useEffect(() => {
+    setNudity([]);
+  }, [movieName])
+
+  // generates list of nudity warnings taken from imdb's website everytime a new movie is picked 
   useEffect(() => {
     const getParentalGuide = async (movieId) => {
       try {
-        // const { data } = await axios.get(
-        //   "https://cors-anywhere.herokuapp.com/https://www.imdb.com/title/"+movieId+"/parentalguide"
-        // );
-        // const $ = cheerio.load(data);
-        // const temp_nudity = [];
+        //uses my own heroku proxy, set up using the CORS-anywhere repo to prevent CORS error
+        const url = "https://lit-bastion-90694.herokuapp.com/https://m.imdb.com/title/"+movieId+"/parentalguide/nudity"
+        const { data } = await axios.get(url);
+        const $ = cheerio.load(data);
+        const temp_nudity = [];
 
-        // $("section#advisory-nudity > ul > li.ipl-zebra-list__item").each((_idx, el) => {
-        //   const warning = $(el).text()
-        //   temp_nudity.push(warning.trim())
-        // });
-        const temp_nudity = ["A couple is staying together in a hotel room, but the scene set there is brief. When the couple are attacked while taking a walk, one says to the other, dryly, that they should have stayed in bed", "Star Lord makes a reference to attaching a grenade to someones junk"]
+        // desktop: "section#advisory-nudity > ul > li.ipl-zebra-list__item"
+        //mobile: "section#advisory > ul > li.ipl-content-list__item"
+
+        $("section#advisory > ul > li.ipl-content-list__item").each((_idx, el) => {
+          const warning = $(el).text();
+          temp_nudity.push(warning);
+        });
         setNudity(temp_nudity);
 
       } catch (error) {
-        console.log(error)
+        console.log(error);
         throw error;
       }
     }
     getParentalGuide(movieId);
-  })
+  }, [movieId])
 
 
   return (
     <div>
       <h4>{movieName}</h4>
-      <h5>Sexual Content</h5>
+      <h5>Sexual Content [{nudity[0]}]</h5>
       <ul>
-        {nudity.map(warning => (
-          <li>
+        {nudity.slice(1).map((warning, i) => (
+          <li key={i} >
             {warning}
           </li>
         ))}
