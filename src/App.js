@@ -2,28 +2,21 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useAuth0 } from "@auth0/auth0-react";
 
 import Navbar from "./components/navbar";
 import MovieList from "./components/movie-main";
-import CreateMovie from "./components/create-movie";
-import LoadingMain from "./components/loading-main";
-
+import LoginPage from "./components/login-page";
+import RegisterPage from "./components/register-page";
 
 
 function App() {
-  const { isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <LoadingMain />
-  }
-
   return (
     <Router>
       <Navbar />
       <br />
       <Route path="/" exact component={MovieList} />
-      <Route path="/add" exact component={CreateMovie} />
+      <Route path="/login" exact component={LoginPage} />
+      <Route path="/register" exact component={RegisterPage} />
     </Router>
   );
 }
