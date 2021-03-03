@@ -12,7 +12,7 @@ const MovieList = () => {
 
   // function for finding a movie by making an api call to omdb's api 
   async function findMovie(e) {
-    const searchString = "http://www.omdbapi.com/?s=" + e.trim().replace(/ /g, "+") + "&apikey=7b960706";
+    const searchString = "https://www.omdbapi.com/?s=" + e.trim().replace(/ /g, "+") + "&apikey=7b960706";
     let res = await axios.get(searchString);
     console.log(res);
     if (res.data.Response === "True") {
