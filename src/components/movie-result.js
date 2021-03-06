@@ -3,7 +3,8 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const MovieResult = ({ movieName, movieId }) => {
-  const [nudity, setNudity] = useState([]); //getting list of nudity warnings from imdb's website
+  const [nudity, setNudity] = useState(null); //getting list of nudity warnings from imdb's website
+  const [loading, setLoading] = useState(null);//shows loading 
 
   //sets nudity warnings to empty array everytime the user inputs a new movie
   useEffect(() => {
@@ -28,7 +29,7 @@ const MovieResult = ({ movieName, movieId }) => {
           temp_nudity.push(warning);
         });
         setNudity(temp_nudity);
-
+        setLoading(true);
       } catch (error) {
         console.log(error);
         throw error;
@@ -40,6 +41,8 @@ const MovieResult = ({ movieName, movieId }) => {
 
   return (
     <div>
+    {loading ? 
+      <div>
       <h4>{movieName}</h4>
       <h5>Sexual Content [{nudity[0]}]</h5>
       <ul>
@@ -49,6 +52,8 @@ const MovieResult = ({ movieName, movieId }) => {
           </li>
         ))}
       </ul>
+    </div>
+    :<div>Loading...</div>}
     </div>
   )
 }
