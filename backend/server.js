@@ -63,13 +63,15 @@ app.post("/register", (req, res) => {
 
       const newUser = new User({
         username: req.body.username,
-        password: hashedPassword
+        password: hashedPassword,
+        type: req.body.type
       });
       await newUser.save();
       res.send("User Created");
     }
   });
 });
+
 app.get("/user", (req, res) => {
   res.send(req.user); 
 });

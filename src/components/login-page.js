@@ -43,6 +43,7 @@ const LoginPage = () => {
       </div>
       <div className="form-group">
         <input className="form-control"
+          type="password"
           placeholder="Enter password"
           value={password}
           onChange={e => setPassword(e.target.value)}
@@ -52,6 +53,7 @@ const LoginPage = () => {
         <input type="button" onClick={login} value="Login" className="btn btn-primary" />
       </div>
       <Link to="/register">Create an account</Link>
+      <input type="button" value="get" onClick={getUser} /> 
     </div>
   )
 }

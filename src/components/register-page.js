@@ -13,7 +13,8 @@ const RegisterPage = () => {
       method: "POST",
       data: {
         username: username,
-        password: password
+        password: password,
+        type: "normal"
       },
       url: "http://localhost:4000/register",
       withCredentials: true
@@ -33,6 +34,7 @@ const RegisterPage = () => {
       <div className="form-group">
         <input className="form-control"
           placeholder="Enter password"
+          type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
