@@ -76,6 +76,11 @@ app.get("/user", (req, res) => {
   res.send(req.user); 
 });
 
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.send("Logged out");
+});
+
 app.listen(4000, () => {
   console.log("Server Has Started.");
 })

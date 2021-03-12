@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../UserContext";
 
 import LoginButton from "./login-button";
 import LogoutButton from "./logout-button";
 
-import { useAuth0 } from "@auth0/auth0-react";
 
 const AuthenticationButton = () => {
-  const { isAuthenticated } = useAuth0();
+  const { user } = useContext(UserContext);
 
-  return isAuthenticated ? <LogoutButton /> : <LoginButton />;
+  return user ? <LogoutButton />: <LoginButton />;
 };
 
 export default AuthenticationButton;

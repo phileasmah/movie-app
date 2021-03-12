@@ -1,17 +1,20 @@
-import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useContext } from "react";
+import axios from "axios";
+import { UserContext } from "../UserContext";
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
+  const { setUser } = useContext(UserContext);
+
+  const logout = () => {
+    axios({
+      method: "GET",
+      url: "http://localhost:4000/logout",
+      withCredentials: true
+    }).then((res) => {setUser(null);});
+  };
+
   return (
-    <button
-      className="btn btn-danger btn-block"
-      onClick={() =>
-        logout({
-          returnTo: window.location.origin,
-        })
-      }
-    >
+    <button className="btn btn-danger btn-block" onClick={() => logout()}>
       Log Out
     </button>
   );
